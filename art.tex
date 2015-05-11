@@ -1,0 +1,191 @@
+
+\documentclass[runningheads,a4paper]{llncs}
+
+\usepackage[utf8]{inputenc}            % kodowanie
+\usepackage[OT4]{fontenc}              % font PL
+\usepackage[polish]{babel}
+% \usepackage{amssymb}
+\setcounter{tocdepth}{3}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{caption}
+\captionsetup{compatibility=false}
+\captionsetup{justification=centering}
+\usepackage{subcaption}
+
+\usepackage{url}
+\urldef{\mailsa}\path|{alfred.hofmann, ursula.barth, ingrid.haas, frank.holzwarth,|
+\urldef{\mailsb}\path|anna.kramer, leonie.kunz, christine.reiss, nicole.sator,|
+\urldef{\mailsc}\path|erika.siebert-cole, peter.strasser, lncs}@springer.com|
+\newcommand{\keywords}[1]{\par\addvspace\baselineskip
+\noindent\keywordname\enspace\ignorespaces#1}
+
+\renewcommand{\keywordname}{\textbf{Słowa kluczowe:}}
+
+\setlength{\fboxsep}{0pt}
+\setlength{\fboxrule}{1pt}
+
+\begin{document}
+
+\mainmatter  % start of an individual contribution
+
+% first the title is needed
+\title{Wykrywanie ataków w sieciach komputerowych z wykorzystaniem systemów Honeypot}
+
+% a short form should be given in case it is too long for the running head
+% \titlerunning{Wykrywanie ataków w sieciach komputerowych z wykorzystaniem systemów Honeypot}
+
+% the name(s) of the author(s) follow(s) next
+\author{Maciej Jagiełło}
+
+% \authorrunning{Techniki cyfrowego rozpoznawania obrazów}
+% (feature abused for this document to repeat the title also on left hand pages)
+
+\institute{}
+
+%
+% NB: a more complex sample for affiliations and the mapping to the
+% corresponding authors can be found in the file "llncs.dem"
+% (search for the string "\mainmatter" where a contribution starts).
+% "llncs.dem" accompanies the document class "llncs.cls".
+%
+
+% \toctitle{Techniki cyfrowego rozpoznawania obrazów}
+% \tocauthor{Authors' Instructions}
+% \maketitle
+
+
+\begin{abstract}
+
+\keywords{honeypot, glastopf, kippo, dionaea, vagrant, puppet, virtualbox}
+\end{abstract}
+
+
+\section{Wprowadzenie}
+
+Wykrywanie ataków w sieciach komputerowych to ważny element działań na rzecz zwiększania bezpieczeństwa systemów. Cyberprzestępczość rozwija się szybkim tempem, z każdym dniem opracowywane są nowe sposoby ataków, wykorzystywane są nowe podatności w aplikacjach, protokołach i systemach operacyjnych. Aby temu przeciwdziałać, konieczne jest opracowanie odpowiednich narzędzi. ....
+
+Celem systemu jest stworzenie narzędzia do zbierania adresów IP hakerów, botów i zainfekowanych maszyn w spójną bazę danych, którą będzie można później wykorzystać np. do rozszerzania reguł zapór ogniowych. System ma również utrwalać Ma być też źródłem nowych wirusów do analizowania przez antywirusy. Wybrane rozwiązanie problemu to sieć Honeypotów.
+
+Honeypot to jedynie idea zbierania informacji. Jest to kombinacja ustawień sprzętowych i programowych, które tworzą system pułapkę. Ustawienia sprzętowe, czyli komputer, wyodrębniony obszar sieci lokalnej, który odpowiednio symuluje prawdziwą sieć, ale jest od niej odizolowany i zabezpieczony.
+
+Taki system, uruchomiony na maszynie serwerowej, udostępnia w Internecie jakiś zasób atrakcyjny dla atakującego. Może to być rekord w bazie danych, aplikacja lub cały system operacyjny. Używając odpowiednich mechanizmów do monitorowania zachowania, zbiera dane o sposobach wykonywania ataków.
+
+Jego główną zaletą jest to, że korzystają z niego niemal wyłącznie użytkownicy, którzy chcą włamać się do sieci.
+
+\section{Sieć honeypotów}
+
+\begin{figure}
+        \centering
+        \fbox{\includegraphics[width=1.0\textwidth]{pics/architecture}}
+        \caption{Architektura aplikacji.}
+        \label{fig:klasyfikator_nn}
+\end{figure}
+
+Honeypoty są zainstalowane na różnych serwerach na świecie.
+
+Istnieje bardzo dużo realizacji honeypotów. Na stronie, która zajmuje się rozwojem narzedzi do zwiększenia bezpieczeństwa w internecie, (https://www.honeynet.org/project) jest wymienione około 30 projektów, a to z pewnością nie wszystko.
+
+Można wspomnieć o doktorze Krzysztofie Cabaju, który prowadzi projekty na przedmiotach BSS, SKM2 i TKOM, na których studenci implementują autorskie honeypoty.
+
+Wybrałem 3 realizacje ze względu na wystarczającą różnorodność w oferowanych przez nie usługach.
+\section{}
+Szklany garnek. Pierwszy z prezentowanych honeypotów jest zwyczajną witryną www, którą można znaleźć w wyszukiwarkach internetowych.
+
+Daje się znaleźć po frazach w języku angielskim, które są generowane z predefiniowanej bazy danych
+
+Potrafi analizować zapytania HTTP, w szczególności zapytania GET, które w parametrze mają zdefiniowane ścieżki URL. Takie argumenty parsuje i próbuje ściągać na dysk do późniejszej analizy.
+\section{}
+Kolejnym wektorem ataków, na jaki są podatne komputery w sieciach komputerowych jest protokół ssh.
+
+Kippo, poza oczywistymi dla mnie źródłem informacji o adresach IP, loguje całą sesję użytkownika od próby zalogowania do aktywności po wylogowaniu (po prostu przechwytuje „logout“, „exit“, SIGINT).
+
+Po wylogowaniu wyświetla znak zachęty wyglądający jak na lokalnym komputerze.
+
+Udostępnia fałyszywy system plików, który wygląda jak po świeżej instalacji debiana. Nie da się tam nic zmienić, tylko niektóre polecenia działają tak jak prawdziwe (reszta zazwyczaj wyświetla komunikat o błędzie)
+
+Tak jak poprzednik, Kippo pobiera i przechowuje pobrane przez atakującego pliki.
+\section{}
+Co tu dużo gadać, kolejny honeypot, tym razem z innymi protokołami. Działa
+\section{}
+Istotnym, choć niekoniecznym krokiem w stronę wewnętrznego bezpieczeństwa jest uruchamianie serwerów honeypotowych w maszynie wirtualnej.
+
+Rozwiązanie bardzo przydatne gdy chcemy, by nasza maszyna była łatwo powielalna.
+
+Vagrant natomiast jest świetnym narzędziem do automatyzacji stawiania takiej maszyny. Przygotowujemy kilka plików konfiguracyjnych w tym jeden z nich to skrypt instalacyjny na naszej maszynie.
+
+Alternatywą do wirtualnej maszyny jest wirtualny kontener, który nie tworzy wirtualnego systemu od początku do końca, a tylko izoluje aplikację od systemu. Bez wchodzenia w szczegóły. Ten sposób jest o wiele lżejszy dla systemu, ale nie gwarantuje 100\% bezpieczeństwa.
+
+Skrypt dostarczający aplikację może być napisany w Puppecie – narzędziu do deklaratywnego zarządzania stanem maszyny.
+\section{}
+Najprostsza wersja do użycia vagranta to trzy polecenia, około 5 minut czekania i jest postawiona maszyna wirtualna z ubuntu server w 32 bitowej wersji.
+
+W moim systemie nie ma potrzeby logowania się do maszyny przez protokuł ssh, jedyne co będzie potrzebne to uruchomienie vagrant up z odpowiednimi skryptami dostarczającymi instalację honeypota. W moim przypadku puppetowymi.
+
+konsola
+\section{}
+Przykładowy i skrócony na potrzeby prezentacji plik puppetowy .
+
+Kolejność, moduły, bashe (również warunki na OS), serwisy, paczki z pipa apt-geta niezależnie od systemu i bez promptów o hasło czy potwierdzenie kontynuacji
+
+Wystarczy puppet apply
+
+Możliwa architektura master-slave, ale nie używana w tym projekcie
+
+\section{}
+Aplikacja
+Silnik zbierania danych napisany w Javie
+Metadane o każdym honeypocie:
+Lista lokalizacji plików do ściągnięcia
+Reguły rozpoznawania plików tekstowych
+Testy integracyjne z użyciem Vagranta, Virtualboxa i Puppeta
+\section{}
+Pierwszym problemem przy pobieraniu logów jest to, że ze względów bezpieczeństwa honeypot nie powinien mieć dostępu do żadnej części tworzonego systemu, ponieważ w przypadku włamania się na serwer, haker może zniszczyć nie tylko maszynę z honeypotem.
+
+Najprostszym sposobem wyciągnia logów jest użycie protokołu ssh. Nie wymaga instalowania dodatkowych aplikacji, wspiera przesyłanie plików, jest protokołem względnie bezpiecznym w porównaniu do innych autorskich rozwiązań.
+
+Aby poradzić sobie z rosnącym w nieskończoność plikiem logów, trzeba go albo czyścić albo archiwizować.
+
+\section{}
+Dwa przykłady prezentacji na żywo ataków z sieci honeypotów.
+
+Typy ataków, ip (lokacja), geoIP, live
+
+To tylko warstwa prezentacji
+\section{Podsumowanie}
+Użyłem honeypotów ..., spełniły swoje zadanie. Pierwsze dane od botów skanujących internet pojawiły się już po paru dniach. Teraz jest to jakieś 500 ataków na godzinę.
+
+Wdrażanie ich to proste uruchomienie skryptu.
+
+Najczęściej spotyka się boty o nagłówkach HTTP, że to tylko zbieranie danych na potrzeby badań - „edukacyjne“
+\section{}
+\begin{thebibliography}{1}
+
+% \bibitem{url} Xa,
+% \url{http://xa}
+
+\bibitem{url} Ataki sieciowe,
+\url{http://jbeczala.republika.pl/files/ataki_sieciowe.pdf}
+\bibitem{url} l,
+\url{http://glastopf.org/}
+\bibitem{url} k,
+\url{https://github.com/desaster/kippo}
+\bibitem{url} j,
+\url{https://www.honeynet.org/project}
+\bibitem{url} h,
+\url{http://map.ipviking.com/}
+\bibitem{url} g,
+\url{http://digitalattackmap.com/}
+\bibitem{url} a,
+\url{https://puppetlabs.com/}
+\bibitem{url} f,
+\url{https://www.virtualbox.org/}
+\bibitem{url} 2w,
+\url{https://www.vagrantup.com/}
+\bibitem{url} xa,
+\url{http://www.digitalforreallife.com/2012/11/boosting-teamwork-with-vagrant/}
+
+
+\end{thebibliography}
+
+\end{document}
