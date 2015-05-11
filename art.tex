@@ -27,33 +27,14 @@
 
 \begin{document}
 
-\mainmatter  % start of an individual contribution
-
-% first the title is needed
+\mainmatter
 \title{Wykrywanie ataków w sieciach komputerowych z wykorzystaniem systemów Honeypot}
-
-% a short form should be given in case it is too long for the running head
-% \titlerunning{Wykrywanie ataków w sieciach komputerowych z wykorzystaniem systemów Honeypot}
-
-% the name(s) of the author(s) follow(s) next
 \author{Maciej Jagiełło}
 
-% \authorrunning{Techniki cyfrowego rozpoznawania obrazów}
-% (feature abused for this document to repeat the title also on left hand pages)
-
+\titlerunning{ }
+\authorrunning{ }
 \institute{}
-
-%
-% NB: a more complex sample for affiliations and the mapping to the
-% corresponding authors can be found in the file "llncs.dem"
-% (search for the string "\mainmatter" where a contribution starts).
-% "llncs.dem" accompanies the document class "llncs.cls".
-%
-
-% \toctitle{Techniki cyfrowego rozpoznawania obrazów}
-% \tocauthor{Authors' Instructions}
-% \maketitle
-
+\maketitle
 
 \begin{abstract}
 
@@ -75,21 +56,23 @@ Jego główną zaletą jest to, że korzystają z niego niemal wyłącznie użyt
 
 \section{Sieć honeypotów}
 
+Na rysunku \ref{fig:architektura_fig} przedstawiony jest schemat architektury aplikacji. Każdy honeypot uruchomiony jest w maszynie wirtualnej. Maszyna ta posiada dostęp do Internetu i wystawia do niego, odpowiednie dla zainstalowanych honeypotów, zasoby. Moduł pobierania i analizy logów zbiera pozostawione przez honeypoty informacje o atakujących. Są to ślady wykonywanych akcji i pliki binarne ładowane na maszyny przez atakujących.
+
 \begin{figure}
         \centering
-        \fbox{\includegraphics[width=1.0\textwidth]{pics/architecture}}
+        \fbox{\includegraphics[width=1.0\textwidth]{pics/architektura}}
         \caption{Architektura aplikacji.}
-        \label{fig:klasyfikator_nn}
+        \label{fig:architektura_fig}
 \end{figure}
 
-Honeypoty są zainstalowane na różnych serwerach na świecie.
-
-Istnieje bardzo dużo realizacji honeypotów. Na stronie, która zajmuje się rozwojem narzedzi do zwiększenia bezpieczeństwa w internecie, (https://www.honeynet.org/project) jest wymienione około 30 projektów, a to z pewnością nie wszystko.
+Istnieje bardzo dużo realizacji honeypotów. Na stronie, która zajmuje się rozwojem narzędzi do zwiększenia bezpieczeństwa w internecie, (https://www.honeynet.org/project) jest wymienione około 30 projektów, a to z pewnością nie wszystko.
 
 Można wspomnieć o doktorze Krzysztofie Cabaju, który prowadzi projekty na przedmiotach BSS, SKM2 i TKOM, na których studenci implementują autorskie honeypoty.
 
 Wybrałem 3 realizacje ze względu na wystarczającą różnorodność w oferowanych przez nie usługach.
+
 \section{}
+
 Szklany garnek. Pierwszy z prezentowanych honeypotów jest zwyczajną witryną www, którą można znaleźć w wyszukiwarkach internetowych.
 
 Daje się znaleźć po frazach w języku angielskim, które są generowane z predefiniowanej bazy danych
@@ -102,7 +85,7 @@ Kippo, poza oczywistymi dla mnie źródłem informacji o adresach IP, loguje ca�
 
 Po wylogowaniu wyświetla znak zachęty wyglądający jak na lokalnym komputerze.
 
-Udostępnia fałyszywy system plików, który wygląda jak po świeżej instalacji debiana. Nie da się tam nic zmienić, tylko niektóre polecenia działają tak jak prawdziwe (reszta zazwyczaj wyświetla komunikat o błędzie)
+Udostępnia fałszywy system plików, który wygląda jak po świeżej instalacji debiana. Nie da się tam nic zmienić, tylko niektóre polecenia działają tak jak prawdziwe (reszta zazwyczaj wyświetla komunikat o błędzie)
 
 Tak jak poprzednik, Kippo pobiera i przechowuje pobrane przez atakującego pliki.
 \section{}
@@ -120,7 +103,7 @@ Skrypt dostarczający aplikację może być napisany w Puppecie – narzędziu d
 \section{}
 Najprostsza wersja do użycia vagranta to trzy polecenia, około 5 minut czekania i jest postawiona maszyna wirtualna z ubuntu server w 32 bitowej wersji.
 
-W moim systemie nie ma potrzeby logowania się do maszyny przez protokuł ssh, jedyne co będzie potrzebne to uruchomienie vagrant up z odpowiednimi skryptami dostarczającymi instalację honeypota. W moim przypadku puppetowymi.
+W moim systemie nie ma potrzeby logowania się do maszyny przez protokół ssh, jedyne co będzie potrzebne to uruchomienie vagrant up z odpowiednimi skryptami dostarczającymi instalację honeypota. W moim przypadku puppetowymi.
 
 konsola
 \section{}
@@ -142,7 +125,7 @@ Testy integracyjne z użyciem Vagranta, Virtualboxa i Puppeta
 \section{}
 Pierwszym problemem przy pobieraniu logów jest to, że ze względów bezpieczeństwa honeypot nie powinien mieć dostępu do żadnej części tworzonego systemu, ponieważ w przypadku włamania się na serwer, haker może zniszczyć nie tylko maszynę z honeypotem.
 
-Najprostszym sposobem wyciągnia logów jest użycie protokołu ssh. Nie wymaga instalowania dodatkowych aplikacji, wspiera przesyłanie plików, jest protokołem względnie bezpiecznym w porównaniu do innych autorskich rozwiązań.
+Najprostszym sposobem wyciągania logów jest użycie protokołu ssh. Nie wymaga instalowania dodatkowych aplikacji, wspiera przesyłanie plików, jest protokołem względnie bezpiecznym w porównaniu do innych autorskich rozwiązań.
 
 Aby poradzić sobie z rosnącym w nieskończoność plikiem logów, trzeba go albo czyścić albo archiwizować.
 
