@@ -67,30 +67,22 @@ Na rysunku \ref{fig:architektura_fig} przedstawiony jest schemat architektury ap
 
 Istnieje bardzo dużo realizacji honeypotów. Na stronie \cite{honeynet_project}, która zajmuje się rozwojem narzędzi do zwiększenia bezpieczeństwa w internecie, jest wymienione około 30 projektów, a to z pewnością nie wszystkie dostępne.
 
-Warto wspomnieć o pracującym na wydziale Elektroniki i Technik Informacyjnych, doktorze Krzysztofie Cabaju, który na przedmiotach BSS, SKM2 i TKOM prowadzi studentów podczas implementacji jego autorskich honeypotów.
+Warto wspomnieć o pracującym na wydziale Elektroniki i Technik Informacyjnych, doktorze Krzysztofie Cabaju, który na przedmiotach BSS, SKM2 i TKOM prowadzi studentów podczas implementacji autorskich honeypotów.
 
-W opisywanym systemie zostały wybrane trzy realizacje honeypotów. Wybór ten  ze względu na wystarczającą różnorodność w oferowanych przez nie usługach.
+W opisywanym systemie zostały wybrane trzy realizacje honeypotów ze względu na wystarczającą różnorodność w oferowanych przez nie usługach.
+
+\section{Glastopf, Kippo i Dionaea}
+
+Pierwszy z prezentowanych honeypotów, Glastopf, jest zwykłą stroną www, którą można znaleźć w wyszukiwarkach internetowych. Treść strony zawiera frazy w języku angielskim, które są generowane z dostarczonej przez twórców bazy danych. Glastopf potrafi w prosty sposób analizować zapytania HTTP, w szczególności te zapytania GET, które w adresie URL zawierają inne adresy URL do zewnętrznych plików. Takie argumenty parsuje i próbuje ściągać na dysk do późniejszej analizy.
+
+Kolejnym wektorem ataków, na jaki są podatne komputery w sieciach komputerowych jest protokół ssh. Kippo symuluje sesję ssh udostępniając prostego shella. Najczęściej używane polecenia mają napisane własne implementacje, które oszukują użytkownika tego środowiska. Polecenia rzadziej używane zwracają błąd, w taki sposób, aby nie zdradzić fałszywości systemy. Kippo udostępnia dla nich fałszywy system plików tylko do odczytu, który wygląda jak po świeżej instalacji Debiana.
+
+Ta aplikacja loguje informacje o adresach IP, próbach pobrania plików z Internetu, zapisuje te pliki w kwarantannie, oraz loguje całą sesję użytkownika od próby zalogowania na serwer, aż do aktywności po wylogowaniu. Robi to przechwytując polecenia „logout“, „exit“ lub znak wysyłany kombinacją klawiszy Ctrl + D. Następnie wyświetla znak zachęty wyglądający jak na lokalnym komputerze.
+
+Ostatnim z użytych przeze mnie Dionaea. Protokoły, którymi się posługuje do serwowania pułapki to głównie Samba, HTTP, FTP, MySQL, RTP. Samba jest bardzo popularnym protokołem do wymiany plików w Windowsie. Wiele osób bez zaawansowanej wiedzy o tym systemie korzysta z niego i nieumyślnie otwiera sobie drogę do włamania. Dlatego atakujący często szukają drogi właśnie tym kanałem.
 
 \section{}
 
-Szklany garnek. Pierwszy z prezentowanych honeypotów jest zwyczajną witryną www, którą można znaleźć w wyszukiwarkach internetowych.
-
-Daje się znaleźć po frazach w języku angielskim, które są generowane z predefiniowanej bazy danych
-
-Potrafi analizować zapytania HTTP, w szczególności zapytania GET, które w parametrze mają zdefiniowane ścieżki URL. Takie argumenty parsuje i próbuje ściągać na dysk do późniejszej analizy.
-\section{}
-Kolejnym wektorem ataków, na jaki są podatne komputery w sieciach komputerowych jest protokół ssh.
-
-Kippo, poza oczywistymi dla mnie źródłem informacji o adresach IP, loguje całą sesję użytkownika od próby zalogowania do aktywności po wylogowaniu (po prostu przechwytuje „logout“, „exit“, SIGINT).
-
-Po wylogowaniu wyświetla znak zachęty wyglądający jak na lokalnym komputerze.
-
-Udostępnia fałszywy system plików, który wygląda jak po świeżej instalacji debiana. Nie da się tam nic zmienić, tylko niektóre polecenia działają tak jak prawdziwe (reszta zazwyczaj wyświetla komunikat o błędzie)
-
-Tak jak poprzednik, Kippo pobiera i przechowuje pobrane przez atakującego pliki.
-\section{}
-Co tu dużo gadać, kolejny honeypot, tym razem z innymi protokołami. Działa
-\section{}
 Istotnym, choć niekoniecznym krokiem w stronę wewnętrznego bezpieczeństwa jest uruchamianie serwerów honeypotowych w maszynie wirtualnej.
 
 Rozwiązanie bardzo przydatne gdy chcemy, by nasza maszyna była łatwo powielalna.
