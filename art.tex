@@ -44,9 +44,9 @@ A tu będzie streszczenie!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 
 \section{Wprowadzenie}
 
-Wykrywanie ataków w sieciach komputerowych to ważny element działań na rzecz zwiększania bezpieczeństwa systemów. Cyberprzestępczość rozwija się szybkim tempem, z każdym dniem opracowywane są nowe sposoby ataków, wykorzystywane są nowe podatności w aplikacjach, protokołach i systemach operacyjnych. Aby temu przeciwdziałać, konieczne jest opracowanie odpowiednich narzędzi. ....
+Wykrywanie ataków w sieciach komputerowych to ważny element działań na rzecz zwiększania bezpieczeństwa systemów. Cyberprzestępczość rozwija się szybkim tempem. Z każdym dniem opracowywane są nowe sposoby ataków, wykorzystywane są nowe podatności w aplikacjach, protokołach i systemach operacyjnych. Aby temu przeciwdziałać, konieczne jest opracowanie odpowiednich narzędzi. ....
 
-Celem systemu jest stworzenie narzędzia do zbierania adresów IP hakerów, botów i zainfekowanych maszyn w spójną bazę danych, którą będzie można później wykorzystać np. do rozszerzania reguł zapór ogniowych. System ma również utrwalać Ma być też źródłem nowych wirusów do analizowania przez antywirusy. Wybrane rozwiązanie problemu to sieć Honeypotów.
+Celem systemu jest stworzenie narzędzia do zbierania adresów IP hakerów, botów i zainfekowanych maszyn w spójną bazę danych, którą będzie można później wykorzystać np. do rozszerzania reguł zapór ogniowych. System ma być też źródłem nowych wirusów do analizowania przez antywirusy. Wybrane rozwiązanie problemu to sieć Honeypotów.
 
 Honeypot to jedynie idea zbierania informacji. Jest to kombinacja ustawień sprzętowych i programowych, które tworzą system pułapkę. Ustawienia sprzętowe, czyli komputer, wyodrębniony obszar sieci lokalnej, który odpowiednio symuluje prawdziwą sieć, ale jest od niej odizolowany i zabezpieczony.
 
@@ -75,21 +75,21 @@ W opisywanym systemie zostały wybrane trzy realizacje honeypotów ze względu n
 
 Pierwszy z prezentowanych honeypotów, Glastopf, jest zwykłą stroną www, którą można znaleźć w wyszukiwarkach internetowych. Treść strony zawiera frazy w języku angielskim, które są generowane z dostarczonej przez twórców bazy danych. Glastopf potrafi w prosty sposób analizować zapytania HTTP, w szczególności te zapytania GET, które w adresie URL zawierają inne adresy URL do zewnętrznych plików. Takie argumenty parsuje i próbuje ściągać na dysk do późniejszej analizy.
 
-Kolejnym wektorem ataków, na jaki są podatne komputery w sieciach komputerowych jest protokół ssh. Kippo symuluje sesję ssh udostępniając prostego shella. Najczęściej używane polecenia mają napisane własne implementacje, które oszukują użytkownika tego środowiska. Polecenia rzadziej używane zwracają błąd, w taki sposób, aby nie zdradzić fałszywości systemy. Kippo udostępnia dla nich fałszywy system plików tylko do odczytu, który wygląda jak po świeżej instalacji Debiana.
+Kolejnym wektorem ataków, na jaki są podatne komputery w sieciach komputerowych jest protokół ssh. Kippo symuluje sesję SSH udostępniając prostego shella. Najczęściej używane polecenia mają napisane własne implementacje, które oszukują użytkownika tego środowiska. Polecenia rzadziej używane zwracają błąd, w taki sposób, aby nie zdradzić fałszywości systemy. Kippo udostępnia dla nich fałszywy system plików tylko do odczytu, który wygląda jak po świeżej instalacji Debiana.
 
 Ta aplikacja loguje informacje o adresach IP, próbach pobrania plików z Internetu, zapisuje te pliki w kwarantannie, oraz loguje całą sesję użytkownika od próby zalogowania na serwer, aż do aktywności po wylogowaniu. Robi to przechwytując polecenia „logout“, „exit“ lub znak wysyłany kombinacją klawiszy Ctrl + D. Następnie wyświetla znak zachęty wyglądający jak na lokalnym komputerze.
 
-Ostatnim z użytych przeze mnie Dionaea. Protokoły, którymi się posługuje do serwowania pułapki to głównie Samba, HTTP, FTP, MySQL, RTP. Samba jest bardzo popularnym protokołem do wymiany plików w Windowsie. Wiele osób bez zaawansowanej wiedzy o tym systemie korzysta z niego i nieumyślnie otwiera sobie drogę do włamania. Dlatego atakujący często szukają drogi właśnie tym kanałem.
+Ostatnim z użytych w systemie honeypotów jest Dionaea. Protokoły, którymi się posługuje do serwowania pułapki to głównie Samba, HTTP, FTP, MySQL, RTP. Samba jest bardzo popularnym protokołem do wymiany plików w Windowsie. Wiele osób bez zaawansowanej wiedzy o tym systemie korzysta z niego i nieumyślnie otwiera sobie drogę do włamania. Dlatego atakujący często szukają drogi właśnie tym kanałem.
+
+\section{Środowisko uruchomieniowe}
+
+Istotnym, choć niekoniecznym krokiem w stronę bezpieczeństwa systemu jest uruchamianie serwerów honeypotowych w maszynie wirtualnej. Pozwala to osiągnąć wysoki poziom separacji środowiska podatnego na ataki, od rzeczywistej maszyny, nad którą nie można stracić dostępu. Dodatkowo to rozwiązanie jest bardzo przydatne gdy jest potrzeba, by system był łatwy w replikacji na inne maszyny. Aplikacja uruchamiająca maszynę wirtualną jest odpowiedzialna za dostarczenie takiego samego środowiska. W opisywanym systemie tą aplikacją jest VirtualBox rozwijany przez firmę Oracle.
+
+Dodatkową warstwą nad VirtualBoxem jest Vagrant. Jest to świetne narzędzie do automatyzacji instalacji maszyny wirtualnej z użyciem skryptów konfiguracyjnych. Jego użycie polega na przygotowaniu skryptu instalacyjnego na naszej maszynie.
+
+Alternatywą do wirtualnej maszyny jest wirtualny kontener, który nie tworzy wirtualnego systemu od początku do końca, a tylko izoluje aplikację od systemu. Najpopularniejszym rozwiązaniem jest Docker. Docker potrzebuje mniej zasobów systemowych, ale nie gwarantuje 100\% bezpieczeństwa.
 
 \section{}
-
-Istotnym, choć niekoniecznym krokiem w stronę wewnętrznego bezpieczeństwa jest uruchamianie serwerów honeypotowych w maszynie wirtualnej.
-
-Rozwiązanie bardzo przydatne gdy chcemy, by nasza maszyna była łatwo powielalna.
-
-Vagrant natomiast jest świetnym narzędziem do automatyzacji stawiania takiej maszyny. Przygotowujemy kilka plików konfiguracyjnych w tym jeden z nich to skrypt instalacyjny na naszej maszynie.
-
-Alternatywą do wirtualnej maszyny jest wirtualny kontener, który nie tworzy wirtualnego systemu od początku do końca, a tylko izoluje aplikację od systemu. Bez wchodzenia w szczegóły. Ten sposób jest o wiele lżejszy dla systemu, ale nie gwarantuje 100\% bezpieczeństwa.
 
 Skrypt dostarczający aplikację może być napisany w Puppecie – narzędziu do deklaratywnego zarządzania stanem maszyny.
 \section{}
