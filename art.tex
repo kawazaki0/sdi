@@ -96,19 +96,19 @@ Artykuł opisuje projekt architektury sieci honeypotów przeznaczonej do wykrywa
 
 Wykrywanie ataków w sieciach komputerowych to ważny element działań na rzecz zwiększania bezpieczeństwa systemów. Cyberprzestępczość rozwija się szybkim tempem. Z każdym dniem opracowywane są nowe sposoby ataków, wykorzystywane są nowe podatności w aplikacjach, protokołach i systemach operacyjnych. Aby temu przeciwdziałać, konieczne jest opracowanie odpowiednich narzędzi.
 
-Celem systemu jest stworzenie narzędzia do zbierania adresów IP\footnote{To taki adres np. 127.0.0.1, który identyfikuje komputer w sieci.} hakerów, botów\footnote{Programy, które wykonują coś automatycznie. Najczęściej są instalowane przez hakerów jako wirusy, ale mogą być też uruchamiane z jego osobistego komputera.} i zainfekowanych maszyn\footnote{Bardziej ogólna nazwa dla komputera} w spójną bazę danych\footnote{Taka baza danych to najczęściej tabela wyglądająca jak w Excelu.}, którą będzie można później wykorzystać np. do rozszerzania reguł zapór ogniowych\footnote{ang. firewall - zatrzymuje niechciane połączenia do komputera. Jedna z prostszych metod przeciwdziałania atakom. Domyślnie instalowany w Windowsach}. System ma być też źródłem nowych wirusów do analizowania przez antywirusy. Wybrane rozwiązanie problemu to sieć Honeypotów\footnote{ang. Garnek z miodem. Taka atrapa do łapania hakerów}.
+Celem systemu jest stworzenie narzędzia do zbierania adresów IP hakerów, botów i zainfekowanych maszyn w spójną bazę danych, którą będzie można później wykorzystać np. do rozszerzania reguł zapór ogniowych. System ma być też źródłem nowych wirusów do analizowania przez antywirusy. Wybrane rozwiązanie problemu to sieć Honeypotów.
 
 Honeypot to jedynie idea zbierania informacji. Jest to kombinacja ustawień sprzętowych i programowych, które tworzą system pułapkę. Ustawienia sprzętowe, czyli komputer, wyodrębniony obszar sieci lokalnej, który odpowiednio symuluje prawdziwą sieć, ale jest od niej odizolowany i zabezpieczony.
 
-Taki system, uruchomiony na maszynie serwerowej\footnote{Maszyna serwerowa to po prostu komputer}, udostępnia w Internecie jakiś zasób atrakcyjny dla atakującego. Może to być rekord w bazie danych, aplikacja lub cały system operacyjny. Używając odpowiednich mechanizmów do monitorowania zachowania, zbiera dane o sposobach wykonywania ataków.
+Taki system, uruchomiony na maszynie serwerowej, udostępnia w Internecie jakiś zasób atrakcyjny dla atakującego. Może to być rekord w bazie danych, aplikacja lub cały system operacyjny. Używając odpowiednich mechanizmów do monitorowania zachowania, zbiera dane o sposobach wykonywania ataków.
 
 Jego główną zaletą jest to, że korzystają z niego niemal wyłącznie użytkownicy, którzy chcą włamać się do sieci.
 
-Aby z sukcesem doprowadzić do wdrożenia i utrzymania takiego systemu niezbędne są technologie wspomagające wdrożenie\footnote{Wdrożenie polega na instalacji i konfiguracji aplikacji gdzieś na jakimś serwerze}. Przedstawione zostaną one w kolejnych rozdziałach artykułu. Działający system, który dostarcza już dane, będzie mógł je prezentować w formie przyjaznej dla człowieka. Ta część systemu przedstawiona zostanie na przykładzie podobnych projektów.
+Aby z sukcesem doprowadzić do wdrożenia i utrzymania takiego systemu niezbędne są technologie wspomagające wdrożenie. Przedstawione zostaną one w kolejnych rozdziałach artykułu. Działający system, który dostarcza już dane, będzie mógł je prezentować w formie przyjaznej dla człowieka. Ta część systemu przedstawiona zostanie na przykładzie podobnych projektów.
 
 \section{Sieć honeypotów}
 
-Na rysunku \ref{fig:architektura_fig} przedstawiony jest schemat architektury aplikacji. Każdy honeypot uruchomiony jest w maszynie wirtualnej\footnote{Maszyna wirtualna to system operacyjny w systemie operacyjnym.}. Maszyna ta posiada dostęp do Internetu i wystawia do niego, odpowiednie dla zainstalowanych honeypotów, zasoby. Moduł pobierania i analizy logów zbiera pozostawione przez honeypoty informacje o atakujących. Są to ślady wykonywanych akcji i pliki binarne\footnote{Pliki binarne (przeciwieństwo to pliki tekstowe) to pliki, których się nie czyta, bo są skompresowane i reprezentowane jako bajty, a nie jako litery} ładowane na maszyny przez atakujących.
+Na rysunku \ref{fig:architektura_fig} przedstawiony jest schemat architektury aplikacji. Każdy honeypot uruchomiony jest w maszynie wirtualnej. Maszyna ta posiada dostęp do Internetu i wystawia do niego, odpowiednie dla zainstalowanych honeypotów, zasoby. Moduł pobierania i analizy logów zbiera pozostawione przez honeypoty informacje o atakujących. Są to ślady wykonywanych akcji i pliki binarne ładowane na maszyny przez atakujących.
 
 \begin{figure}
         \centering
@@ -117,22 +117,22 @@ Na rysunku \ref{fig:architektura_fig} przedstawiony jest schemat architektury ap
         \label{fig:architektura_fig}
 \end{figure}
 
-Istnieje bardzo dużo realizacji honeypotów. Na stronie \cite{honeynet_project}, która zajmuje się rozwojem narzędzi do zwiększenia bezpieczeństwa w Internecie, jest wymienione około 30 projektów, a to z pewnością nie wszystkie dostępne.
+Istnieje bardzo dużo realizacji honeypotów. Na stronie \cite{honeynet_project}, która zajmuje się rozwojem narzędzi do zwiększenia bezpieczeństwa w internecie, jest wymienione około 30 projektów, a to z pewnością nie wszystkie dostępne.
 
-Warto wspomnieć o pracującym na wydziale Elektroniki i Technik Informacyjnych\footnote{Mój wydział}, doktorze Krzysztofie Cabaju, który na przedmiotach BSS, SKM2 i TKOM prowadzi studentów podczas implementacji\footnote{Implementacja to popularne słowo na pisanie aplikacji} autorskich honeypotów.
+Warto wspomnieć o pracującym na wydziale Elektroniki i Technik Informacyjnych, doktorze Krzysztofie Cabaju, który na przedmiotach BSS, SKM2 i TKOM prowadzi studentów podczas implementacji autorskich honeypotów.
 
 W opisywanym systemie zostały wybrane trzy realizacje honeypotów ze względu na wystarczającą różnorodność w oferowanych przez nie usługach.
 
 \section{Honeypoty}
 
 \subsection{Glastopf}
-Pierwszy z prezentowanych honeypotów, Glastopf\footnote{niem. Szklany garnek}, jest zwykłą stroną www, którą można znaleźć w wyszukiwarkach internetowych. Treść strony zawiera frazy w języku angielskim, które są generowane z dostarczonej przez twórców bazy danych. Glastopf potrafi w prosty sposób analizować zapytania HTTP\footnote{Gdy wejdziesz na stronę google.pl, to tak naprawdę wyślesz zapytanie GET protokołem HTTP do serwera o domenie google.pl.}, w szczególności te zapytania GET, które w adresie URL zawierają inne adresy URL do zewnętrznych plików. Takie argumenty parsuje\footnote{Analizuje jego znaczenie. Tekst dla komputera jest niezrozumiały póki nie będzie wiedzieć jak go czytać. Parsowanie to proces, który zamienia jeden ciąg literek w inne struktury danych} i próbuje ściągać na dysk do późniejszej analizy.
+Pierwszy z prezentowanych honeypotów, Glastopf, jest zwykłą stroną www, którą można znaleźć w wyszukiwarkach internetowych. Treść strony zawiera frazy w języku angielskim, które są generowane z dostarczonej przez twórców bazy danych. Glastopf potrafi w prosty sposób analizować zapytania HTTP, w szczególności te zapytania GET, które w adresie URL zawierają inne adresy URL do zewnętrznych plików. Takie argumenty parsuje i próbuje ściągać na dysk do późniejszej analizy.
 
 \subsection{Kippo}
 
-Kolejnym wektorem ataków, na jaki są podatne komputery w sieciach komputerowych jest protokół\footnote{Protokołem do stron internetowych jest HTTP.} ssh\footnote{Protokół do zdalnego wykonywania komend w konsoli na komputerze}. Kippo symuluje sesję SSH udostępniając prostego shella\footnote{Aplikacja do uruchamiania komend}. Najczęściej używane polecenia mają napisane własne implementacje, które oszukują użytkownika tego środowiska\footnote{Atakujący musi myśleć, że jest na prawdziwym komputerze, a nie na atrapie}. Polecenia rzadziej używane zwracają błąd, w taki sposób, aby nie zdradzić fałszywości systemy. Kippo udostępnia dla nich fałszywy system plików\footnote{To co zaczyna się od C: w Windowsie} tylko do odczytu, który wygląda jak po świeżej instalacji Debiana\footnote{System operacyjny typu Linux}.
+Kolejnym wektorem ataków, na jaki są podatne komputery w sieciach komputerowych jest protokół ssh. Kippo symuluje sesję SSH udostępniając prostego shella. Najczęściej używane polecenia mają napisane własne implementacje, które oszukują użytkownika tego środowiska. Polecenia rzadziej używane zwracają błąd, w taki sposób, aby nie zdradzić fałszywości systemy. Kippo udostępnia dla nich fałszywy system plików tylko do odczytu, który wygląda jak po świeżej instalacji Debiana.
 
-Ta aplikacja loguje informacje o adresach IP, próbach pobrania plików z Internetu, zapisuje te pliki w kwarantannie, oraz loguje całą sesję użytkownika od próby zalogowania na serwer, aż do aktywności po wylogowaniu. Robi to przechwytując polecenia „logout“, „exit“ lub znak wysyłany kombinacją klawiszy Ctrl + D. Następnie wyświetla znak zachęty\footnote{Znak, który oznacza, że konsola oczekuje kolejnego polecenia} wyglądający jak na lokalnym komputerze.
+Ta aplikacja loguje informacje o adresach IP, próbach pobrania plików z Internetu, zapisuje te pliki w kwarantannie, oraz loguje całą sesję użytkownika od próby zalogowania na serwer, aż do aktywności po wylogowaniu. Robi to przechwytując polecenia „logout“, „exit“ lub znak wysyłany kombinacją klawiszy Ctrl + D. Następnie wyświetla znak zachęty wyglądający jak na lokalnym komputerze.
 
 \subsection{Dionaea}
 
@@ -142,9 +142,9 @@ Ostatnim z użytych w systemie honeypotów jest Dionaea. Protokoły, którymi si
 
 Istotnym, choć niekoniecznym krokiem w stronę bezpieczeństwa systemu jest uruchamianie serwerów honeypotowych w maszynie wirtualnej. Pozwala to osiągnąć wysoki poziom separacji środowiska podatnego na ataki, od rzeczywistej maszyny, nad którą nie można stracić dostępu. Dodatkowo to rozwiązanie jest bardzo przydatne gdy jest potrzeba, by system był łatwy w replikacji na inne maszyny. Aplikacja uruchamiająca maszynę wirtualną jest odpowiedzialna za dostarczenie takiego samego środowiska. W opisywanym systemie tą aplikacją jest VirtualBox rozwijany przez firmę Oracle.
 
-Dodatkową warstwą nad VirtualBoxem jest Vagrant. Jest to świetne narzędzie do automatyzacji instalacji maszyny wirtualnej z użyciem skryptów konfiguracyjnych\footnote{Skrypt konfiguracyjny to jakaś aplikacja}. Jego użycie polega na przygotowaniu skryptu instalacyjnego\footnote{Znów aplikacja} na naszej maszynie. W tym systemie do instalacji honeypotów został użyty Puppet. Puppet to narzędzie do deklaratywnego\footnote{Deklaratywny sposób to pisanie jaki ma być stan, czyli CO ma być zrobione. Np. woda ma być ugotowana. Przeciwieństwo - imperatywny sposób - to pisanie JAK ma coś być zrobione np. wstaw wodę i zacznij gotować aż osiągnie 100 st. C.} zarządzania stanem\footnote{Zainstalowanymi aplikacjami, stworzonymi plikami} maszyny.
+Dodatkową warstwą nad VirtualBoxem jest Vagrant. Jest to świetne narzędzie do automatyzacji instalacji maszyny wirtualnej z użyciem skryptów konfiguracyjnych. Jego użycie polega na przygotowaniu skryptu instalacyjnego na naszej maszynie. W tym systemie do instalacji honeypotów został użyty Puppet. Puppet to narzędzie do deklaratywnego zarządzania stanem maszyny.
 
-Alternatywą do wirtualnej maszyny jest wirtualny kontener\footnote{Sam nie wiem co to jest :)}, który nie tworzy wirtualnego systemu od początku do końca, a tylko izoluje aplikację od systemu. Najpopularniejszym rozwiązaniem jest Docker. Docker potrzebuje mniej zasobów systemowych\footnote{Procesor, Dysk, Ram}, ale nie gwarantuje 100\% bezpieczeństwa.
+Alternatywą do wirtualnej maszyny jest wirtualny kontener, który nie tworzy wirtualnego systemu od początku do końca, a tylko izoluje aplikację od systemu. Najpopularniejszym rozwiązaniem jest Docker. Docker potrzebuje mniej zasobów systemowych, ale nie gwarantuje 100\% bezpieczeństwa.
 
 \subsection{Narzędzia}
 
@@ -152,7 +152,7 @@ Wartym do wejścia w szczegóły tematem jest wspólne działanie Vagranta, Virt
 
 \subsection*{Vagrant i VirtualBox}
 
-Zanim można rozpocząć procedurę, należy pobrać dystrybucję\footnote{Konkretną wersję systemu operacyjnego. Np. wspomniany Debian} systemu poleceniem:
+Zanim można rozpocząć procedurę, należy pobrać dystrybucję systemu poleceniem:
 \begin{lstlisting}
 $ vagrant init hashicorp/precise32
 \end{lstlisting}
@@ -168,7 +168,7 @@ Dostęp do stworzonej maszyny można uzyskać poprzez polecenie \texttt{vagrant 
         \label{fig:vagrant_fig}
 \end{figure}
 
-Cały proces trwa około 5 minut, został wykonany z użyciem 3 poleceń w terminalu\footnote{Inaczej konsola}, a wynikiem jest maszyna wirtualna z ubuntu server w 32 bitowej wersji z zainstalowanym honeypotem.
+Cały proces trwa około 5 minut, został wykonany z użyciem 3 poleceń w terminalu, a wynikiem jest maszyna wirtualna z ubuntu server w 32 bitowej wersji z zainstalowanym honeypotem.
 
 \subsection*{Puppet}
 
@@ -178,7 +178,7 @@ Przykładowy i skrócony na potrzeby artykułu plik puppetowy jest na listingu \
 \lstinputlisting[language=Octave,caption={glastopf.pp},label={glastopf_file}]{code/glastopf.pp}
 \end{glastopf_listing}
 
-W skrypcie puppetowym w sposób deklaratywny określa się jak ma wyglądać stan maszyny po instalacji. Istnieje wiele wbudowanych modułów\footnote{Bibliotek, które tak naprawdę są kolejnymi aplikacjami}, które pozwalają zarządzać plikami, serwisami, aplikacjami, skryptami do uruchomienia, itp. Do zbioru modułów można doinstalowywać te udostępnione przez społeczność. A w nich są takie, które np. zarządzają gitem\footnote{Aplikacja do śledzenia zmian w plikach podczas pisania programów, tak, żeby jak coś się przypadkiem usunie, żeby dało się do tego wrócić.}.
+W skrypcie puppetowym w sposób deklaratywny określa się jak ma wyglądać stan maszyny po instalacji. Istnieje wiele wbudowanych modułów, które pozwalają zarządzać plikami, serwisami, aplikacjami, skryptami do uruchomienia, itp. Do zbioru modułów można doinstalowywać te udostępnione przez społeczność. A w nich są takie, które np. zarządzają gitem.
 
 Do uruchomienia skryptu z listingu \ref{glastopf_file} potrzebujemy tylko jednego polecenia:
 \begin{lstlisting}
@@ -188,7 +188,7 @@ Podczas wykonywania tego polecenia, Puppet analizuje plik \texttt{pp} i interpre
 
 \section{Aplikacja}
 
-Silnik do zbierania danych to aplikacja napisana w języku Java. Jego działanie polega na logowaniu się na serwer za pomocą protokołu SSH i pobraniu logów\footnote{Plików tekstowych z wpisami, które zostawił honeypot}. To gdzie się one znajdują jest zdefiniowane dla każdego honeypota oddzielnie. Na metadane\footnote{Metadane to dane o danych} o każdym z honeypotów składają się:
+Silnik do zbierania danych to aplikacja napisana w języku Java. Jego działanie polega na logowaniu się na serwer za pomocą protokołu SSH i pobraniu logów. To gdzie się one znajdują jest zdefiniowane dla każdego honeypota oddzielnie. Na metadane o każdym z honeypotów składają się:
 \begin{itemize}
 \item lista lokalizacji plików do ściągnięcia,
 \item reguły rozpoznawania plików tekstowych.
@@ -232,7 +232,7 @@ Do wykonania systemu wykrywającego ataki w sieciach komputerowych został użyt
 
 Pierwsze dane od botów skanujących internet pojawiły się już po paru dniach. Po kilku tygodniach średnia liczba ataków na jeden honeypot to 50 ataków na godzinę.
 
-Boty atakujące serwer Glastopf najczęściej posiadały w nagłówku zapytania\footnote{Np. przeglądarki internetowe w nagłówku wysyłają to jaką są przeglądarką, jaka jest ich wersja, jaka jest wersja systemu operacyjnego} informację, że to tylko zbieranie danych na potrzeby badań edukacyjnych. Jednak rzeczywistość każe sądzić, że to tylko próba odwrócenia uwagi od faktycznego ataku.
+Boty atakujące serwer Glastopf najczęściej posiadały w nagłówku zapytania informację, że to tylko zbieranie danych na potrzeby badań edukacyjnych. Jednak rzeczywistość każe sądzić, że to tylko próba odwrócenia uwagi od faktycznego ataku.
 
 \begin{thebibliography}{1}
 
