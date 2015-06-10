@@ -5,6 +5,9 @@
 \usepackage[OT4]{fontenc}              % font PL
 \usepackage[polish]{babel}
 % \usepackage{amssymb}
+% \usepackage{minted}
+\usepackage{listings}
+\usepackage{color}
 \setcounter{tocdepth}{3}
 \usepackage{graphicx}
 \usepackage{epstopdf}
@@ -12,6 +15,48 @@
 \captionsetup{compatibility=false}
 \captionsetup{justification=centering}
 \usepackage{subcaption}
+\setcounter{secnumdepth}{3}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{mygrey}{rgb}{0.97,0.97,0.97}
+
+\lstset{
+  backgroundcolor=\color{mygrey},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\footnotesize\ttfamily,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  aboveskip=0pt,
+  abovecaptionskip=0pt,
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+%   frame=single,                    % adds a frame around the code
+  framexleftmargin=3pt,
+  framexbottommargin=3pt,
+  framextopmargin=0pt,
+  framexrightmargin=3pt,
+  framerule=0.1pt,
+   language=Octave,
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+%   morekeywords={*,...},            % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=8pt,                   % how far the line-numbers are from the code
+  numberstyle=\footnotesize\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=4,                       % sets default tabsize to 2 spaces
+  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+
 
 \usepackage{url}
 \urldef{\mailsa}\path|{alfred.hofmann, ursula.barth, ingrid.haas, frank.holzwarth,|
@@ -71,13 +116,18 @@ Warto wspomnieć o pracującym na wydziale Elektroniki i Technik Informacyjnych,
 
 W opisywanym systemie zostały wybrane trzy realizacje honeypotów ze względu na wystarczającą różnorodność w oferowanych przez nie usługach.
 
-\section{Glastopf, Kippo i Dionaea}
+\section{Honeypoty}
 
+\subsection{Glastopf}
 Pierwszy z prezentowanych honeypotów, Glastopf, jest zwykłą stroną www, którą można znaleźć w wyszukiwarkach internetowych. Treść strony zawiera frazy w języku angielskim, które są generowane z dostarczonej przez twórców bazy danych. Glastopf potrafi w prosty sposób analizować zapytania HTTP, w szczególności te zapytania GET, które w adresie URL zawierają inne adresy URL do zewnętrznych plików. Takie argumenty parsuje i próbuje ściągać na dysk do późniejszej analizy.
+
+\subsection{Kippo}
 
 Kolejnym wektorem ataków, na jaki są podatne komputery w sieciach komputerowych jest protokół ssh. Kippo symuluje sesję SSH udostępniając prostego shella. Najczęściej używane polecenia mają napisane własne implementacje, które oszukują użytkownika tego środowiska. Polecenia rzadziej używane zwracają błąd, w taki sposób, aby nie zdradzić fałszywości systemy. Kippo udostępnia dla nich fałszywy system plików tylko do odczytu, który wygląda jak po świeżej instalacji Debiana.
 
 Ta aplikacja loguje informacje o adresach IP, próbach pobrania plików z Internetu, zapisuje te pliki w kwarantannie, oraz loguje całą sesję użytkownika od próby zalogowania na serwer, aż do aktywności po wylogowaniu. Robi to przechwytując polecenia „logout“, „exit“ lub znak wysyłany kombinacją klawiszy Ctrl + D. Następnie wyświetla znak zachęty wyglądający jak na lokalnym komputerze.
+
+\subsection{Dionaea}
 
 Ostatnim z użytych w systemie honeypotów jest Dionaea. Protokoły, którymi się posługuje do serwowania pułapki to głównie Samba, HTTP, FTP, MySQL, RTP. Samba jest bardzo popularnym protokołem do wymiany plików w Windowsie. Wiele osób bez zaawansowanej wiedzy o tym systemie korzysta z niego i nieumyślnie otwiera sobie drogę do włamania. Dlatego atakujący często szukają drogi właśnie tym kanałem.
 
@@ -85,21 +135,37 @@ Ostatnim z użytych w systemie honeypotów jest Dionaea. Protokoły, którymi si
 
 Istotnym, choć niekoniecznym krokiem w stronę bezpieczeństwa systemu jest uruchamianie serwerów honeypotowych w maszynie wirtualnej. Pozwala to osiągnąć wysoki poziom separacji środowiska podatnego na ataki, od rzeczywistej maszyny, nad którą nie można stracić dostępu. Dodatkowo to rozwiązanie jest bardzo przydatne gdy jest potrzeba, by system był łatwy w replikacji na inne maszyny. Aplikacja uruchamiająca maszynę wirtualną jest odpowiedzialna za dostarczenie takiego samego środowiska. W opisywanym systemie tą aplikacją jest VirtualBox rozwijany przez firmę Oracle.
 
-Dodatkową warstwą nad VirtualBoxem jest Vagrant. Jest to świetne narzędzie do automatyzacji instalacji maszyny wirtualnej z użyciem skryptów konfiguracyjnych. Jego użycie polega na przygotowaniu skryptu instalacyjnego na naszej maszynie.
+Dodatkową warstwą nad VirtualBoxem jest Vagrant. Jest to świetne narzędzie do automatyzacji instalacji maszyny wirtualnej z użyciem skryptów konfiguracyjnych. Jego użycie polega na przygotowaniu skryptu instalacyjnego na naszej maszynie. W tym systemie do instalacji honeypotów został użyty Puppet. Puppet to narzędzie do deklaratywnego zarządzania stanem maszyny.
 
 Alternatywą do wirtualnej maszyny jest wirtualny kontener, który nie tworzy wirtualnego systemu od początku do końca, a tylko izoluje aplikację od systemu. Najpopularniejszym rozwiązaniem jest Docker. Docker potrzebuje mniej zasobów systemowych, ale nie gwarantuje 100\% bezpieczeństwa.
 
-\section{}
+\subsection{Narzędzia}
 
-Skrypt dostarczający aplikację może być napisany w Puppecie – narzędziu do deklaratywnego zarządzania stanem maszyny.
-\section{}
-Najprostsza wersja do użycia vagranta to trzy polecenia, około 5 minut czekania i jest postawiona maszyna wirtualna z ubuntu server w 32 bitowej wersji.
+Wartym do wejścia w szczegóły tematem jest wspólne działanie Vagranta, VirtualBoxa i Puppeta. Schemat jest przedstawiony na rysunku \ref{fig:vagrant_fig}. Numery obok strzałek oznaczają kolejne kroki instalacji honeypota na maszynie wirtualnej.
 
-W moim systemie nie ma potrzeby logowania się do maszyny przez protokół ssh, jedyne co będzie potrzebne to uruchomienie vagrant up z odpowiednimi skryptami dostarczającymi instalację honeypota. W moim przypadku puppetowymi.
+Zanim można rozpocząć procedurę, należy pobrać dystrybucję systemu poleceniem \texttt{vagrant init}:
+\begin{lstlisting}
+$ vagrant init hashicorp/precise32
+\end{lstlisting}
 
-konsola
-\section{}
-Przykładowy i skrócony na potrzeby prezentacji plik puppetowy .
+Następnie polecenie \texttt{vagrant up} uruchamia procedurę. Najpierw Vagrant, korzystając z VirtualBoxa tworzy wirtualne środowisko. Potem uruchamia skrypty Puppetowe. One instalują się na maszynie tworząc gotowe środowisko.
+
+Dostęp do stworzonej maszyny można uzyskać poprzez polecenie \texttt{vagrant ssh}.
+
+\begin{figure}
+        \centering
+        \fbox{\includegraphics[width=1.0\textwidth]{pics/vagrant}}
+        \caption{Vagrant, Puppet, VirtualBox.}
+        \label{fig:vagrant_fig}
+\end{figure}
+
+Cały proces trwa około 5 minut, został wykonany z użyciem 3 poleceń w terminalu, a wynikiem jest maszyna wirtualna z ubuntu server w 32 bitowej wersji z zainstalowanym honeypotem.
+
+\subsection*{Puppet}
+
+Przykładowy i skrócony na potrzeby artykułu plik puppetowy w listingu \ref{glastopf_file}.
+\\
+\lstinputlisting[caption={glastopf.pp},label={glastopf_file}]{code/glastopf.pp}
 
 Kolejność, moduły, bashe (również warunki na OS), serwisy, paczki z pipa apt-geta niezależnie od systemu i bez promptów o hasło czy potwierdzenie kontynuacji
 
