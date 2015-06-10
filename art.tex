@@ -40,7 +40,6 @@
   framextopmargin=0pt,
   framexrightmargin=3pt,
   framerule=0.1pt,
-   language=Octave,
   keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
   keywordstyle=\color{blue},       % keyword style
 %   morekeywords={*,...},            % if you want to add more keywords to the set
@@ -57,6 +56,12 @@
   title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
 }
 
+\usepackage{float}
+\usepackage[justification=centering]{caption}
+
+\floatstyle{plain}
+\newfloat{glastopf_listing}{bhp}{}[section]
+\floatname{glastopf_listing}{Listing}
 
 \usepackage{url}
 \urldef{\mailsa}\path|{alfred.hofmann, ursula.barth, ingrid.haas, frank.holzwarth,|
@@ -143,7 +148,9 @@ Alternatywą do wirtualnej maszyny jest wirtualny kontener, który nie tworzy wi
 
 Wartym do wejścia w szczegóły tematem jest wspólne działanie Vagranta, VirtualBoxa i Puppeta. Schemat jest przedstawiony na rysunku \ref{fig:vagrant_fig}. Numery obok strzałek oznaczają kolejne kroki instalacji honeypota na maszynie wirtualnej.
 
-Zanim można rozpocząć procedurę, należy pobrać dystrybucję systemu poleceniem \texttt{vagrant init}:
+\subsection*{Vagrant i VirtualBox}
+
+Zanim można rozpocząć procedurę, należy pobrać dystrybucję systemu poleceniem:
 \begin{lstlisting}
 $ vagrant init hashicorp/precise32
 \end{lstlisting}
@@ -163,29 +170,37 @@ Cały proces trwa około 5 minut, został wykonany z użyciem 3 poleceń w termi
 
 \subsection*{Puppet}
 
-Przykładowy i skrócony na potrzeby artykułu plik puppetowy w listingu \ref{glastopf_file}.
-\\
-\lstinputlisting[caption={glastopf.pp},label={glastopf_file}]{code/glastopf.pp}
+Przykładowy i skrócony na potrzeby artykułu plik puppetowy jest na listingu \ref{glastopf_file}.
 
-Kolejność, moduły, bashe (również warunki na OS), serwisy, paczki z pipa apt-geta niezależnie od systemu i bez promptów o hasło czy potwierdzenie kontynuacji
+\begin{glastopf_listing}[h]
+\lstinputlisting[language=Octave,caption={glastopf.pp},label={glastopf_file}]{code/glastopf.pp}
+\end{glastopf_listing}
 
-Wystarczy puppet apply
+W skrypcie puppetowym w sposób deklaratywny określa się jak ma wyglądać stan maszyny po instalacji. Istnieje wiele wbudowanych modułów, które pozwalają zarządzać plikami, serwisami, aplikacjami, skryptami do uruchomienia, itp. Do zbioru modułów można doinstalowywać te udostępnione przez społeczność. A w nich są takie, które np. zarządzają gitem.
 
-Możliwa architektura master-slave, ale nie używana w tym projekcie
+Do uruchomienia skryptu z listingu \ref{glastopf_file} potrzebujemy tylko jednego polecenia:
+\begin{lstlisting}
+$ puppet apply glastopf.pp
+\end{lstlisting}
+Podczas wykonywania tego polecenia, Puppet analizuje plik \texttt{pp} i interpretuje go z użyciem modułów. Moduły wbudowane są napisane w języku Ruby i mogą być przygotowane dla różnych systemów operacyjnych. To, który się wykona zależy od środowiska, które rozpozna Puppet.
 
-\section{}
-Aplikacja
-Silnik zbierania danych napisany w Javie
-Metadane o każdym honeypocie:
-Lista lokalizacji plików do ściągnięcia
-Reguły rozpoznawania plików tekstowych
-Testy integracyjne z użyciem Vagranta, Virtualboxa i Puppeta
-\section{}
-Pierwszym problemem przy pobieraniu logów jest to, że ze względów bezpieczeństwa honeypot nie powinien mieć dostępu do żadnej części tworzonego systemu, ponieważ w przypadku włamania się na serwer, haker może zniszczyć nie tylko maszynę z honeypotem.
+\section{Aplikacja}
 
-Najprostszym sposobem wyciągania logów jest użycie protokołu ssh. Nie wymaga instalowania dodatkowych aplikacji, wspiera przesyłanie plików, jest protokołem względnie bezpiecznym w porównaniu do innych autorskich rozwiązań.
+Silnik do zbierania danych to aplikacja napisana w języku Java. Jego działanie polega na logowaniu się na serwer za pomocą protokołu SSH i pobraniu logów. To gdzie się one znajdują jest zdefiniowane dla każdego honeypota oddzielnie. Na metadane o każdym z honeypotów składają się:
+\begin{itemize}
+\item lista lokalizacji plików do ściągnięcia,
+\item reguły rozpoznawania plików tekstowych.
+\end{itemize}
 
-Aby poradzić sobie z rosnącym w nieskończoność plikiem logów, trzeba go albo czyścić albo archiwizować.
+Aplikacja archiwizuje i utrwala pobrane dane w bazie danych. Analizuje ona również aktywność atakujących wg reguł zdefiniowany w metadanych, tak aby wyciągnąć adres IP komputera wysyłającego atak, stempel czasowy ataku i jego typ. Dane te później agreguje i udostępnia w formie zrozumiałej dla warstwy prezentacji, tak jak na rysunku \ref{architektura_fig}.
+
+Jednym z problemów przy pobieraniu logów jest to, że ze względów bezpieczeństwa honeypot nie powinien mieć dostępu do żadnej części tworzonego systemu, ponieważ w przypadku włamania się na serwer, haker może zniszczyć nie tylko maszynę z honeypotem.
+
+Zostało to rozwiązane własnie używając protokołu SSH. Nie wymaga on instalowania dodatkowych aplikacji, wspiera przesyłanie plików i jest protokołem względnie bezpiecznym w porównaniu do innych autorskich rozwiązań.
+
+Kolejnym problemem, który można spotkać podczas używania i konserwacji systemu jest rosnący bez końca plik z logami. Aby sobie z tym poradzić należy go okresowo archiwizować i usuwać, jeśli przekroczy określony rozmiar. Użyta została do tego aplikacja dostępna w repozytorium Ubuntu - logrotate.
+
+Testy integracyjne aplikacji zostały wsparte przez technologie użyte przy wdrażaniu honeypotów: Vagrant, Virtualbox i Puppet.
 
 \section{}
 Dwa przykłady prezentacji na żywo ataków z sieci honeypotów.
